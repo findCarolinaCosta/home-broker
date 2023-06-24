@@ -19,7 +19,7 @@ func (i *Investor) AddAssetPosition(assetPotion *InvestorAssetPosition) {
 }
 
 func (i *Investor) UpdateAssetPosition(assetID string, qtdShares int) {
-	assetPosition := i.GetAssetPotion(assetID)
+	assetPosition := i.GetAssetPosition(assetID)
 	if assetPosition == nil {
 		i.AssetPotion = append(i.AssetPotion, NewInvestorAssetPosition(assetID, qtdShares))
 	} else {
@@ -27,7 +27,7 @@ func (i *Investor) UpdateAssetPosition(assetID string, qtdShares int) {
 	}
 }
 
-func (i *Investor) GetAssetPotion(assetID string) *InvestorAssetPosition {
+func (i *Investor) GetAssetPosition(assetID string) *InvestorAssetPosition {
 	for _, assetPosition := range i.AssetPotion {
 		if assetPosition.AssetID == assetID {
 			return assetPosition
