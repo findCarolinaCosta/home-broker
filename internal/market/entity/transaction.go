@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type Transactions struct {
+type Transaction struct {
 	ID           string
 	SellingOrder *Order
 	BuyingOrder  *Order
@@ -16,10 +16,10 @@ type Transactions struct {
 	DateTime     time.Time
 }
 
-func NewTransactions(sellingOrder *Order, buyingOrder *Order, shares int, price float64) *Transactions {
+func NewTransaction(sellingOrder *Order, buyingOrder *Order, shares int, price float64) *Transaction {
 	total := float64(shares) * price
 
-	return &Transactions{
+	return &Transaction{
 		ID:           uuid.New().String(),
 		SellingOrder: sellingOrder,
 		BuyingOrder:  buyingOrder,
