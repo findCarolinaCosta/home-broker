@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
-import { PrismaService } from '../prisma/prisma/prisma.service';
+import { ExtensionPrismaService } from '../prisma/extension-prisma/extension-prisma.service';
 
 @Injectable()
-export class AssetsService {
-  constructor(private prismaService: PrismaService) {}
-
+export class AssetsService extends ExtensionPrismaService {
   create(data: CreateAssetDto) {
     return this.prismaService.asset.create({
       data,
