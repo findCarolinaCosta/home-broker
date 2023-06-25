@@ -5,7 +5,7 @@ import (
 	"github.com/findCarolinaCosta/home-broker/go/internal/market/entity"
 )
 
-func Transformer(input dto.TraderInput) *entity.Order {
+func TransformInput(input dto.TradeInput) *entity.Order {
 	asset := entity.NewAsset(input.AssetID, input.AssetID, 1000)
 	investor := entity.NewInvestor(input.InvestorId)
 	order := entity.NewOrder(input.OrderID, investor, asset, input.Shares, input.Price, input.OrderType)
@@ -34,8 +34,8 @@ func TransformOutput(order *entity.Order) *dto.OrderOutput {
 	for _, t := range order.Transactions {
 		transactionOutput := &dto.TransactionOutput{
 			TransactionID: t.ID,
-			BuyerID:       t.BuyingOrder.ID,
-			SellerID:      t.SellingOrder.ID,
+			BuyerID:       t.BuyingOrder.Investor.ID,
+			SellerID:      t.SellingOrder.Investor.ID,
 			AssetID:       t.SellingOrder.Asset.ID,
 			Price:         t.Price,
 			Shares:        t.SellingOrder.Shares - t.SellingOrder.PendingShares,
