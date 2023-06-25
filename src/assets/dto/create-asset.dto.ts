@@ -1,1 +1,5 @@
-export class CreateAssetDto {}
+export class CreateAssetDto {
+  id: string;
+  symbol: string;
+  price: number;
+}

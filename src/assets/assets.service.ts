@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
+import { PrismaService } from '../prisma/prisma/prisma.service';
 
 @Injectable()
 export class AssetsService {
-  create(createAssetDto: CreateAssetDto) {
-    return 'This action adds a new asset';
+  constructor(private prismaService: PrismaService) {}
+
+  create(data: CreateAssetDto) {
+    return this.prismaService.asset.create({
+      data,
+    });
   }
 
   findAll() {
