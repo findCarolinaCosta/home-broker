@@ -9,3 +9,6 @@ Content-Type: application/json
       "symbol": "A1",
        "price": 100
 }
+
+### List assets
+GET http://localhost:3000/assets

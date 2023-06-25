@@ -14,7 +14,7 @@ export class AssetsService {
   }
 
   findAll() {
-    return `This action returns all assets`;
+    return this.prismaService.asset.findMany();
   }
 
   findOne(id: number) {
