@@ -11,9 +11,32 @@ datasource db {
 }
 
 model Asset {
-  id         String   @id @map("_id")
-  symbol     String
-  price      Float
+  id          String        @id @map("_id")
+  symbol      String
+  price       Float
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  WalletAsset WalletAsset[]
+}
+
+model Wallet {
+  id          String        @id @map("_id")
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  WalletAsset WalletAsset[]
+}
+
+model WalletAsset {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  wallet_id  String
+  asset_id   String
+  shares     Int      @db.Int
+  version    Int
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
+  Wallet Wallet @relation(fields: [wallet_id], references: [id])
+  Asset  Asset  @relation(fields: [asset_id], references: [id])
+
+  @@unique([wallet_id, asset_id])
 }
