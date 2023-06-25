@@ -24,6 +24,16 @@
 			"omzPlugins": "https://github.com/z-shell/F-Sy-H https://github.com/zsh-users/zsh-autosuggestions https://github.com/zsh-users/zsh-completions"
 		},
 		"ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"prisma.prisma",
+				"humao.rest-client",
+				"esbenp.prettier-vscode",
+				"dbaeumer.vscode-eslint"
+			]
+		}
 	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
