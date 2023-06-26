@@ -17,6 +17,7 @@ model Asset {
   created_at  DateTime      @default(now())
   updated_at  DateTime      @updatedAt
   WalletAsset WalletAsset[]
+  Orders      Order[]
 }
 
 model Wallet {
@@ -24,6 +25,7 @@ model Wallet {
   created_at  DateTime      @default(now())
   updated_at  DateTime      @updatedAt
   WalletAsset WalletAsset[]
+  Orders      Order[]
 }
 
 model WalletAsset {
@@ -39,4 +41,33 @@ model WalletAsset {
   Asset  Asset  @relation(fields: [asset_id], references: [id])
 
   @@unique([wallet_id, asset_id])
+}
+
+enum OrderType {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  OPEN
+  CLOSED
+  FAILED
+}
+
+model Order {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  wallet_id String
+  asset_id  String
+  shares    Int         @db.Int
+  price     Float
+  type      OrderType
+  status    OrderStatus
+  partial   Int         @db.Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  Wallet Wallet @relation(fields: [wallet_id], references: [id])
+  Asset  Asset  @relation(fields: [asset_id], references: [id])
 }
