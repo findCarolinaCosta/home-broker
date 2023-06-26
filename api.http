@@ -1,5 +1,7 @@
 GET http://localhost:3000
 
+# Asset
+
 ### Create a new asset
 POST http://localhost:3000/assets
 Content-Type: application/json
@@ -14,6 +16,8 @@ Content-Type: application/json
 GET http://localhost:3000/assets
 
 
+# Wallet
+
 ### Create a new wallet
 POST http://localhost:3000/wallets
 Content-Type: application/json
@@ -24,3 +28,17 @@ Content-Type: application/json
 
 ### List wallets
 GET http://localhost:3000/wallets
+
+# WalletAsset
+
+### Create asset
+POST http://localhost:3000/wallets/wallet2/assets
+Content-Type: application/json
+
+{
+     "asset_id": "asset2",
+    "shares": 10
+}
+
+### List wallet + asset
+GET http://localhost:3000/wallets/wallet1/assets
