@@ -1,14 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ExtensionPrismaService } from '../prisma/extension-prisma/extension-prisma.service';
 import { InitTransactionDto } from './dto/init-transaction.dto';
 import { OrderStatus, OrderType } from '@prisma/client';
 import { InputTransactionDto } from './dto/input-transaction.dto';
+import { ClientKafka } from '@nestjs/microservices';
 
 @Injectable()
 export class OrdersService extends ExtensionPrismaService {
-  initTransaction(data: InitTransactionDto) {
-    return this.prismaService.order.create({
+  constructor(
+    @Inject('ORDER_PUBLISHER')
+    private readonly kafkaClient: ClientKafka,
+  ) {
+    super();
+  }
+
+  async initTransaction(data: InitTransactionDto) {
+    const order = await this.prismaService.order.create({
       data: {
         ...data,
         partial: data.shares,
@@ -16,6 +24,17 @@ export class OrdersService extends ExtensionPrismaService {
         version: 1,
       },
     });
+
+    this.kafkaClient.emit('input', {
+      order_id: order.id,
+      investor_id: order.wallet_id,
+      asset_id: order.asset_id,
+      shares: order.shares,
+      price: order.price,
+      order_type: order.type,
+    });
+
+    return order;
   }
 
   async executeTransaction(data: InputTransactionDto) {
